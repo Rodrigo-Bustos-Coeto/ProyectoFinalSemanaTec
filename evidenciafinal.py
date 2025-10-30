@@ -17,7 +17,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 
-img = cv2.imread("./imagenes/jitomate1.jpg")
+img = cv2.imread("jitomate4.jpg")
 
 img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
@@ -72,16 +72,6 @@ colorTomate2 = cv2.bitwise_and(img_rgb, img_rgb, mask=maskTomate2)
 colorTomate3 = cv2.bitwise_and(img_rgb, img_rgb, mask=maskTomate3)
 
 
-#Imagen con el Area analizada
-result = cv2.addWeighted(img_gray_rgb, 1 , colorVerde, 1, 0)
-result = cv2.addWeighted(result,1 , colorAmarilla, 1, 0)
-result = cv2.addWeighted(result,1 , colorCafe, 1, 0)
-
-resultTomate = cv2.addWeighted(img_gray_rgb, 1 , colorTomate, 1, 0)
-resultTomate = cv2.addWeighted(resultTomate, 1 , colorTomate2, 1, 0)
-resultTomate = cv2.addWeighted(resultTomate, 1 , colorTomate3, 1, 0)
-
-
 
 
 #Suma de los pixeles en cada una de los rangos de las mascaras
@@ -129,6 +119,18 @@ porcentajeTomate = areaTomateTotal / areaTotal * 100
 
 print(f"{porcentajeTomate:.2f}% de la planta es fruto cosechable")
 
+
+#Imagen con el Area analizada
+result = cv2.addWeighted(img_gray_rgb, 1 , colorVerde, 1, 0)
+result = cv2.addWeighted(result,1 , colorAmarilla, 1, 0)
+result = cv2.addWeighted(result,1 , colorCafe, 1, 0)
+
+resultTomate = cv2.addWeighted(img_gray_rgb, 1 , colorTomate, 1, 0)
+resultTomate = cv2.addWeighted(resultTomate, 1 , colorTomate2, 1, 0)
+resultTomate = cv2.addWeighted(resultTomate, 1 , colorTomate3, 1, 0)
+
+resultTotal = cv2.addWeighted(result, 0.6 , resultTomate, 0.3, 0)
+
 #Ploteo
 plt.figure()
 
@@ -147,3 +149,8 @@ plt.subplot(2,2,3)
 plt.imshow(resultTomate)
 plt.axis("off")
 plt.title("Area Fruto Cosechable")
+
+plt.subplot(2,2,4)
+plt.imshow(resultTotal)
+plt.axis("off")
+plt.title("Area Total")
